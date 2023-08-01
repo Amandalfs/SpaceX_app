@@ -1,10 +1,11 @@
 import { Header } from './components/Header';
+import { StatsOfLaunches } from './components/StatsOfLaunches';
 
 function App() {
-
   return (
-    <main>
-        <Header/>
+    <main className='flex flex-col h-screen bg-gray-150 '>
+        <Header />
+        <StatsOfLaunches />
     </main>
   )
 }
