@@ -7,8 +7,10 @@ function App() {
   return (
     <main className='flex flex-col bg-gray-150 '>
         <Header />
-        <StatsOfLaunches />
-        <StatsOfLaunchesByYears />
+        <div className='flex flex-col md:flex-row md:justify-center md:items-center md:gap-4'>
+          <StatsOfLaunches />
+          <StatsOfLaunchesByYears />
+        </div>
         <HistoryLaunches />
     </main>
   )
