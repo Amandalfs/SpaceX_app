@@ -1,11 +1,6 @@
 import { VictoryPie } from "victory";
 import { useState, useEffect } from 'react';
 import { apiSpace } from "../../services/api";
-interface IStatsPizza {
-    name: string, 
-    used: boolean,
-    count: number
-}
 
 export function StatsOfLaunches(){
     const [statsPizza, setStatsPizza] = useState([]);

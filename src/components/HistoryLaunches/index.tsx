@@ -4,7 +4,7 @@ import TableContainer from '@mui/material/TableContainer';
 import { Line } from './Line';
 import { apiSpace } from '../../services/api';
 import {  useEffect, useState } from 'react';
-import { Button, Input, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import searchIconUrl from "../../assets/search.svg";
@@ -25,7 +25,6 @@ interface Ilaunches {
 export function HistoryLaunches(){
   const [hasNext, setHasNext] = useState(null);
   const [hasPrev, setHasPrev] = useState(null);    
-  const [totalDocs, setTotalDocs] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [update, setUpdate] = useState(false);
@@ -37,7 +36,6 @@ export function HistoryLaunches(){
     const response = await apiSpace.get(url);
     setHasNext(response.data.hasNext);  
     setHasPrev(response.data.hasPrev);
-    setTotalDocs(response.data.totalDocs);
     setTotalPages(response.data.totalPages);
     setLaunches(response.data.launches);
   }
