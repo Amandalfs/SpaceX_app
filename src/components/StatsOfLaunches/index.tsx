@@ -1,6 +1,7 @@
 import { VictoryPie } from "victory";
 import { useQuery } from "@tanstack/react-query";
 import { getStatsPizza } from "../../services/request";
+import { RocketStatus } from "./Stats/Statst";
 
 export function StatsOfLaunches(){
     const { data } = useQuery({
@@ -15,7 +16,7 @@ export function StatsOfLaunches(){
     const success = data?.success ?? 0;
     const failures = data?.failures ?? 0;
 
-    return (<div className="flex flex-col w-full h-30 bg-gray-100 pt-4 px-8 md:w-[500px] md:h-[400px]">
+    return (<div className="flex flex-col w-full h-30 bg-white pt-4 px-8 md:w-[500px] md:h-[400px] rounded-lg shadow-md">
         <div className="hidden md:flex md:justify-center">
             <h1 className="font-sans font-semibold text-xl  text-black">Lançamentos de foguetes</h1>
         </div>
@@ -23,26 +24,22 @@ export function StatsOfLaunches(){
             <div className="md:flex md:flex-col gap-8">
                 <div className="hidden md:flex md:flex-col md:gap-2">
                     <div className="flex flex-row gap-2 items-center">
-                        <div className="h-4 w-4 bg-black">
-                        </div>
+                        <RocketStatus status="black" />
                         <h3 className="font-sans font-semibold text-sm  text-black">Old Falcon 9</h3>
                     </div>
 
                     <div className="flex flex-row gap-2 items-center">
-                        <div className="h-4 w-4 bg-orange-50">
-                        </div>
+                        <RocketStatus status="orange" />
                         <h3 className="font-sans font-semibold text-sm  text-black">New Falcon 9</h3>
                     </div>
 
                     <div className="flex flex-row gap-2 items-center">
-                        <div className="h-4 w-4 bg-blue">
-                        </div>
+                        <RocketStatus status="blue" />
                         <h3 className="font-sans font-semibold text-sm  text-black">Falcon 1</h3>
                     </div>
 
                     <div className="flex flex-row gap-2 items-center">
-                        <div className="h-4 w-4 bg-gray-50">
-                        </div>
+                        <RocketStatus status="gray" />
                         <h3 className="font-sans font-semibold text-sm  text-black">Falcon Heavy</h3>
                     </div>
                     

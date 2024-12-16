@@ -35,7 +35,7 @@ export function StatsOfLaunchesByYears(){
   const stats = data ?? {};
 
   return (
-    <div className="w-full bg-gray-100 mt-8 mb-8 md:w-[500px] md:h-[400px]">
+    <div className="w-full bg-white mt-8 mb-8 md:w-[500px] md:h-[400px] rounded-lg shadow-md">
       <div className="h-60 md:h-96">
         <VictoryChart>
           {renderChart(stats["Falcon 1_false"], "#D9D9D9")}
