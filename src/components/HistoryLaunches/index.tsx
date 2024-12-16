@@ -2,97 +2,33 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import { Line } from './Line';
-import { apiSpace } from '../../services/api';
-import {  useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import searchIconUrl from "../../assets/search.svg";
 import { useSearchParams } from 'react-router';
-
-interface Ilaunches {
-  id: string,
-  date_utc: string,
-  flight_number: number,
-  name: string,
-  webcast: string,
-  rocket: {
-    id: string,
-    name: string,
-  },
-  success: boolean
-}
+import { useQuery } from '@tanstack/react-query';
+import { getByListLaunches } from '../../services/request';
+import Navigation from './Navigation/Navigation';
 
 export function HistoryLaunches(){
-  const [hasNext, setHasNext] = useState(null);
-  const [hasPrev, setHasPrev] = useState(null);    
-  const [totalPages, setTotalPages] = useState(0);
-  const [update, setUpdate] = useState(false);
-  const [launches, setLaunches] = useState<Ilaunches[]>([]);
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get('page')) ?? 1;
   const [valueSearch, setValueSearch] = useState("");
+  const [search, setSearch] = useState("");
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get('page');
+  const { data } = useQuery({
+    queryKey: ["launches", page, search],
+    queryFn: async () => {
+      const response = await getByListLaunches(search, page);
+      return response;
+    }
+  });
 
-  if(!page) {
-    setSearchParams((params) => {
-      params.set("page", String(1))
-      return params
-    })
-  }
-
-  const firstPage = () => {
-    setSearchParams((params) => {
-      params.set("page", '1');
-      return params;
-    });
-  };
-  
-  const lastPage = () => {
-    setSearchParams((params) => {
-      params.set("page", String(totalPages))
-      return params
-    })
-  };
-
-  
-  const nextPage = () => {
-    setSearchParams((params) => {
-        if(!hasNext) return 
-        const newPage = Number(page) + 1
-        params.set("page", String(newPage))
-
-        return params
-    })
-  };
-
-  
-  const previusPage = () => {
-    setSearchParams((params) => {
-        if(!hasPrev) return 
-        const newPage = Number(page) - 1
-        params.set("page", String(newPage))
-        
-        return params
-    })
-  };
-
-
-  async function getBylist(){
-   try {
-    const url = valueSearch?`/launches?limit=4&page=${page}&search=${valueSearch}`:`/launches?limit=4&page=${page}`
-    const response = await apiSpace.get(url);
-    setHasNext(response.data.hasNext);  
-    setHasPrev(response.data.hasPrev);
-    setTotalPages(response.data.totalPages);
-    setLaunches(response.data.launches);
-   } catch (error) {
-    console.log(error)
-   }
-  }
-
-  useEffect(()=>{
-    getBylist();
-  },[update, page]);
+  const launches = data?.launches ?? [];
+  const hasNext = data?.hasNext ?? false;
+  const hasPrev = data?.hasPrev ?? false;
+  const totalPages = data?.totalPages ?? 0;
 
   return (<div className='flex flex-col'>
     <div className='flex justify-center'>
@@ -135,9 +71,7 @@ export function HistoryLaunches(){
               height: 30,
             },
           }}
-          onClick={()=>{
-            getBylist();
-          }}
+          onClick={()=>setSearch(valueSearch)}
         >
           Buscar
         </Button>
@@ -195,52 +129,12 @@ export function HistoryLaunches(){
             </TableBody>
           </Table>
         </TableContainer>
-        <div className='flex row text-right justify-end md:w-[90%]'>
-          <div className='flex flex-row gap-1 m-2'>
-          {
-            (page !== '1') &&  
-            (<button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-                onClick={() =>{
-                  firstPage()
-                }}
-              >
-                {1}   
-            </button>)
-          }
-          {
-            hasPrev &&  
-            (<button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-                onClick={() =>{
-                  previusPage();
-                }}
-              >
-                {page && (Number(page) - 1)}   
-            </button>)}
-
-            <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'>
-              {Number(page)}          
-            </button>
-            {
-            hasNext  && (<><button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-              onClick={()=>{
-                nextPage();
-              }}
-            >
-              {page && (Number(page) + 1)}          
-            </button>
-            <button className='flex h-8 w-8 rounded-lg items-center justify-center'>
-              ...          
-            </button>
-            <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-              onClick={()=>{
-                lastPage()
-              }}
-              >
-              {totalPages}
-            </button></>)
-            }
-          </div>
-        </div>
+        <Navigation 
+          page={page} 
+          totalPages={totalPages} 
+          hasNext={hasNext} 
+          hasPrev={hasPrev} 
+        />
         </div>
       </div>
   </div>)
