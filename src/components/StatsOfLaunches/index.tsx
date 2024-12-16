@@ -1,22 +1,19 @@
 import { VictoryPie } from "victory";
-import { useState, useEffect } from 'react';
-import { apiSpace } from "../../services/api";
+import { useQuery } from "@tanstack/react-query";
+import { getStatsPizza } from "../../services/request";
 
 export function StatsOfLaunches(){
-    const [statsPizza, setStatsPizza] = useState([]);
-    const [success, setSuccess] = useState(0);
-    const [failures, setFailures] = useState(0);
+    const { data } = useQuery({
+        queryKey: ['stats-pizza'],
+        queryFn: async () => {
+            const response = await getStatsPizza();
+            return response;
+        }
+    })
 
-    async function getStatsPizza(){
-        const response = await apiSpace.get("/launches/stats");
-        setSuccess(response.data.success);
-        setFailures(response.data.failures);
-        setStatsPizza(response.data["statsPizza"]);
-    }
-
-    useEffect(()=>{
-        getStatsPizza()
-    },[]);
+    const statsPizza = data?.statsPizza ?? [];
+    const success = data?.success ?? 0;
+    const failures = data?.failures ?? 0;
 
     return (<div className="flex flex-col w-full h-30 bg-gray-100 pt-4 px-8 md:w-[500px] md:h-[400px]">
         <div className="hidden md:flex md:justify-center">
