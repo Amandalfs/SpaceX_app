@@ -57,6 +57,7 @@ export function StatsOfLaunchesByYears(){
 
   async function listDatasByYears() {
     const response = await apiSpace.get("/launches/stats/years");
+    console.log(response);
     setStats(response.data.stats);
   }
 

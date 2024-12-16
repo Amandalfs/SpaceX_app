@@ -4,7 +4,7 @@ import TableContainer from '@mui/material/TableContainer';
 import { Line } from './Line';
 import { apiSpace } from '../../services/api';
 import {  useEffect, useState } from 'react';
-import { Button, TextField } from '@mui/material';
+import { Button, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import searchIconUrl from "../../assets/search.svg";
@@ -109,87 +109,86 @@ export function HistoryLaunches(){
     </div>
 
     <div className='md:flex md:justify-center md:items-center mb-8 mt-8'>
-      <div className='bg-gray-500 md:w-[90%] md:justify-center'>
-        
+      <div className='bg-gray-500 md:w-[90%] md:justify-center'>       
         <TableContainer className="md:flex md:justify-center">
-            <Table sx={{ 
-              minWidth: 300,
-              "@media (min-width:600px)": {
-                width: '80%',
-              },
-            }}>
-              <div className='hidden md:flex md:h-20 md:items-center md:justify-center'>
-                <div className='flex justify-start gap-[56px] font-bold pr-12'>
-                  <div>
-                    Nº Voo
-                  </div>
-                  <div>
-                    Logo
-                  </div>
-                <div>
+          <Table sx={{ 
+            minWidth: 300,
+            "@media (min-width:600px)": {
+              width: '80%',
+            },
+          }}>
+            <TableHead>
+              <TableRow>
+                <TableCell className='hidden md:flex md:h-20 md:items-center md:justify-center'>
+                  Nº Voo
+                </TableCell>
+                <TableCell className='hidden md:flex md:h-20 md:items-center md:justify-center'>
+                  Logo
+                </TableCell>
+                <TableCell className='hidden md:flex md:h-20 md:items-center md:justify-center'>
                   Missão
-                </div>
-                <div>
+                </TableCell>
+                <TableCell className='hidden md:flex md:h-20 md:items-center md:justify-center'>
                   Data de lançamento
-                </div>
-                <div>
+                </TableCell>
+                <TableCell className='hidden md:flex md:h-20 md:items-center md:justify-center'>
                   Foguete
-                </div>
-                <div className='pr-6'>
+                </TableCell>
+                <TableCell className='hidden md:flex md:h-20 md:items-center md:justify-center pr-6'>
                   Resultado
-                </div>
-                <div>
+                </TableCell>
+                <TableCell className='hidden md:flex md:h-20 md:items-center md:justify-center'>
                   Vídeo
-                </div>
-                </div>
-              </div>
-              <TableBody className='bg-gray-500 '>
-                {
-                  launches.map(({date_utc, flight_number, name, rocket, success, webcast, id})=>{
-                      return (<Line 
-                        date_utc={date_utc}
-                        flight_number={flight_number}
-                        name={name}
-                        rocket_name={rocket.name}
-                        success={success}
-                        webcast={webcast}
-                        key={id}
-                      />)
-                  })
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <div className='flex row text-right justify-end md:w-[90%]'>
-            <div className='flex flex-row gap-1 m-2'>
-              <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-                onClick={(e: any)=>{
-                  onPrevPage(e.target.innerText);
-                }}
-              >
-                {page}   
-              </button>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody className='bg-gray-500 '>
               {
-              hasNext  && (<><button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-                onClick={(e: any)=>{
-                  onNextPage(e.target.innerText);
-                }}
-              >
-                {Number(page)+1}          
-              </button>
-              <button className='flex h-8 w-8 rounded-lg items-center justify-center'>
-                ...          
-              </button>
-              <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-                onClick={(e: any)=>{
-                  onNextPage(e.target.innerText);
-                }}
-                >
-                {totalPages}
-              </button></>)
+                launches && launches.map(({date_utc, flight_number, name, rocket, success, webcast, id})=>{
+                    return (<Line 
+                      date_utc={date_utc}
+                      flight_number={flight_number}
+                      name={name}
+                      rocket_name={rocket.name}
+                      success={success}
+                      webcast={webcast}
+                      key={id}
+                    />)
+                })
               }
-            </div>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <div className='flex row text-right justify-end md:w-[90%]'>
+          <div className='flex flex-row gap-1 m-2'>
+            <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
+              onClick={(e: React.MouseEvent<HTMLButtonElement>)=>{
+                onPrevPage(e.currentTarget.innerText);
+              }}
+            >
+              {page}   
+            </button>
+            {
+            hasNext  && (<><button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
+              onClick={(e: React.MouseEvent<HTMLButtonElement>)=>{
+                onNextPage(e.currentTarget.innerText);
+              }}
+            >
+              {Number(page)+1}          
+            </button>
+            <button className='flex h-8 w-8 rounded-lg items-center justify-center'>
+              ...          
+            </button>
+            <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
+              onClick={(e: React.MouseEvent<HTMLButtonElement>)=>{
+                onNextPage(e.currentTarget.innerText);
+              }}
+              >
+              {totalPages}
+            </button></>)
+            }
           </div>
+        </div>
         </div>
       </div>
   </div>)
