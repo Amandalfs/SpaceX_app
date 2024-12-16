@@ -6,8 +6,8 @@ import { apiSpace } from '../../services/api';
 import {  useEffect, useState } from 'react';
 import { Button, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
-
 import searchIconUrl from "../../assets/search.svg";
+import { useSearchParams } from 'react-router';
 
 interface Ilaunches {
   id: string,
@@ -26,37 +26,73 @@ export function HistoryLaunches(){
   const [hasNext, setHasNext] = useState(null);
   const [hasPrev, setHasPrev] = useState(null);    
   const [totalPages, setTotalPages] = useState(0);
-  const [page, setPage] = useState(1);
   const [update, setUpdate] = useState(false);
   const [launches, setLaunches] = useState<Ilaunches[]>([]);
   const [valueSearch, setValueSearch] = useState("");
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get('page');
+
+  if(!page) {
+    setSearchParams((params) => {
+      params.set("page", String(1))
+      return params
+    })
+  }
+
+  const firstPage = () => {
+    setSearchParams((params) => {
+      params.set("page", '1');
+      return params;
+    });
+  };
+  
+  const lastPage = () => {
+    setSearchParams((params) => {
+      params.set("page", String(totalPages))
+      return params
+    })
+  };
+
+  
+  const nextPage = () => {
+    setSearchParams((params) => {
+        if(!hasNext) return 
+        const newPage = Number(page) + 1
+        params.set("page", String(newPage))
+
+        return params
+    })
+  };
+
+  
+  const previusPage = () => {
+    setSearchParams((params) => {
+        if(!hasPrev) return 
+        const newPage = Number(page) - 1
+        params.set("page", String(newPage))
+        
+        return params
+    })
+  };
+
+
   async function getBylist(){
+   try {
     const url = valueSearch?`/launches?limit=4&page=${page}&search=${valueSearch}`:`/launches?limit=4&page=${page}`
     const response = await apiSpace.get(url);
     setHasNext(response.data.hasNext);  
     setHasPrev(response.data.hasPrev);
     setTotalPages(response.data.totalPages);
     setLaunches(response.data.launches);
-  }
-
-  function onNextPage(nextPage: string){
-    if(hasNext){
-      setPage(Number(nextPage));
-      setUpdate(!update);
-    }
-  }
-
-  function onPrevPage(prevPage: string){
-    if(hasPrev){
-      setPage(Number(prevPage)-1);
-      setUpdate(!update);
-    }
+   } catch (error) {
+    console.log(error)
+   }
   }
 
   useEffect(()=>{
     getBylist();
-  },[update]);
+  },[update, page]);
 
   return (<div className='flex flex-col'>
     <div className='flex justify-center'>
@@ -161,27 +197,43 @@ export function HistoryLaunches(){
         </TableContainer>
         <div className='flex row text-right justify-end md:w-[90%]'>
           <div className='flex flex-row gap-1 m-2'>
-            <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-              onClick={(e: React.MouseEvent<HTMLButtonElement>)=>{
-                onPrevPage(e.currentTarget.innerText);
-              }}
-            >
-              {page}   
+          {
+            (page !== '1') &&  
+            (<button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
+                onClick={() =>{
+                  firstPage()
+                }}
+              >
+                {1}   
+            </button>)
+          }
+          {
+            hasPrev &&  
+            (<button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
+                onClick={() =>{
+                  previusPage();
+                }}
+              >
+                {page && (Number(page) - 1)}   
+            </button>)}
+
+            <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'>
+              {Number(page)}          
             </button>
             {
             hasNext  && (<><button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-              onClick={(e: React.MouseEvent<HTMLButtonElement>)=>{
-                onNextPage(e.currentTarget.innerText);
+              onClick={()=>{
+                nextPage();
               }}
             >
-              {Number(page)+1}          
+              {page && (Number(page) + 1)}          
             </button>
             <button className='flex h-8 w-8 rounded-lg items-center justify-center'>
               ...          
             </button>
             <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-              onClick={(e: React.MouseEvent<HTMLButtonElement>)=>{
-                onNextPage(e.currentTarget.innerText);
+              onClick={()=>{
+                lastPage()
               }}
               >
               {totalPages}
