@@ -18,3 +18,19 @@ export const getStatsPizza = async (): Promise<StatsPizzaResponse> => {
     return response.data;
 }
 
+
+
+interface StatsColumnResponse {
+    [key: string]: Array<{
+        rocketName: string;
+        rocketId: string;
+        year: string;
+        reused: boolean;
+        count: number;
+    }>;
+}
+
+export const listDatasByYears = async (): Promise<StatsColumnResponse> => {
+    const response = await apiSpace.get("/launches/stats/years");
+    return response.data.stats
+}
