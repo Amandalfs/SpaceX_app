@@ -29,7 +29,7 @@ export function StatsOfLaunches(){
                     </div>
 
                     <div className="flex flex-row gap-2 items-center">
-                        <RocketStatus status="orange" />
+                        <RocketStatus status="violet" />
                         <h3 className="font-sans font-semibold text-sm  text-black">New Falcon 9</h3>
                     </div>
 
@@ -60,7 +60,7 @@ export function StatsOfLaunches(){
             </div>
             <div className="hidden md:flex md:w-[300px] md:h=[300px]">
                 <VictoryPie 
-                    colorScale={["#000000", "#D9D9D9", "#1267FC", "#F57C00" ]}
+                    colorScale={["#000000", "#D9D9D9", "#1267FC", "#6d28d9" ]}
                     data={statsPizza}
                     x="name"
                     y="count"

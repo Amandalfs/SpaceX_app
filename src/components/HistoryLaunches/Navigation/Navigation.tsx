@@ -46,31 +46,31 @@ const Navigation = ({page, totalPages, hasNext, hasPrev}: {
     return (
         <div className='flex row text-right justify-end md:w-[90%]'>
             <div className='flex flex-row gap-1 m-2'>
-                {(page !== 1) && (1 !== page-1) && <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
+                {(page !== 1) && (1 !== page-1) && <button className='flex bg-violet-700 h-8 w-8 rounded-lg items-center justify-center text-white'
                     onClick={firstPage}
                 >
                     {1}   
                 </button>}
 
-                {hasPrev && <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
+                {hasPrev && <button className='flex bg-violet-700 h-8 w-8 rounded-lg items-center justify-center text-white'
                     onClick={previusPage}
                 >
                     {page && (page - 1)}   
                 </button>}
                 
 
-                <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'>
+                <button className='flex bg-violet-700 h-8 w-8 rounded-lg items-center justify-center text-white'>
                     {Number(page)}          
                 </button>
-                {hasNext && <><button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
+                {hasNext && <><button className='flex bg-violet-700 h-8 w-8 rounded-lg items-center justify-center text-white'
                     onClick={nextPage}
                 >
                     {page && (page + 1)}          
                 </button>
-                <button className='flex h-8 w-8 rounded-lg items-center justify-center'>
+                <button className='flex h-8 w-8 rounded-lg items-center justify-center bg-violet-700 text-white '>
                     ...          
                 </button>
-                <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
+                <button className='flex bg-violet-700 h-8 w-8 rounded-lg items-center justify-center text-white'
                     onClick={lastPage}
                 >
                     {totalPages}

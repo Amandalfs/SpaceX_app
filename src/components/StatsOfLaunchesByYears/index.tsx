@@ -39,7 +39,7 @@ export function StatsOfLaunchesByYears(){
       <div className="h-60 md:h-96">
         <VictoryChart>
           {renderChart(stats["Falcon 1_false"], "#D9D9D9")}
-          {renderChart(stats["Falcon 9_false"], "#F57C00")}
+          {renderChart(stats["Falcon 9_false"], "#6d28d9")}
           {renderChart(stats["Falcon 9_true"], "#000000")}
           {renderChart(stats["Falcon Heavy_false"], "#1267FC")}
           <VictoryAxis
