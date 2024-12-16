@@ -1,7 +1,10 @@
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export const apiSpace = axios.create({
-    baseURL: "https://space-x-api.onrender.com",
+    baseURL: apiUrl,
     timeout: 10000,
-    headers: {'X-Custom-Header': 'foobar'}
+    headers: {
+        'Content-Type': 'application/json'
+    }
 });

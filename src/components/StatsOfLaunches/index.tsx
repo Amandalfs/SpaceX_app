@@ -1,24 +1,22 @@
 import { VictoryPie } from "victory";
-import { useState, useEffect } from 'react';
-import { apiSpace } from "../../services/api";
+import { useQuery } from "@tanstack/react-query";
+import { getStatsPizza } from "../../services/request";
+import { RocketStatus } from "./Stats/Statst";
 
 export function StatsOfLaunches(){
-    const [statsPizza, setStatsPizza] = useState([]);
-    const [success, setSuccess] = useState(0);
-    const [failures, setFailures] = useState(0);
+    const { data } = useQuery({
+        queryKey: ['stats-pizza'],
+        queryFn: async () => {
+            const response = await getStatsPizza();
+            return response;
+        }
+    })
 
-    async function getStatsPizza(){
-        const response = await apiSpace.get("/launches/stats");
-        setSuccess(response.data.success);
-        setFailures(response.data.failures);
-        setStatsPizza(response.data["statsPizza"]);
-    }
+    const statsPizza = data?.statsPizza ?? [];
+    const success = data?.success ?? 0;
+    const failures = data?.failures ?? 0;
 
-    useEffect(()=>{
-        getStatsPizza()
-    },[]);
-
-    return (<div className="flex flex-col w-full h-30 bg-gray-100 pt-4 px-8 md:w-[500px] md:h-[400px]">
+    return (<div className="flex flex-col w-full h-30 bg-white pt-4 px-8 md:w-[500px] md:h-[400px] rounded-lg shadow-md">
         <div className="hidden md:flex md:justify-center">
             <h1 className="font-sans font-semibold text-xl  text-black">Lançamentos de foguetes</h1>
         </div>
@@ -26,26 +24,22 @@ export function StatsOfLaunches(){
             <div className="md:flex md:flex-col gap-8">
                 <div className="hidden md:flex md:flex-col md:gap-2">
                     <div className="flex flex-row gap-2 items-center">
-                        <div className="h-4 w-4 bg-black">
-                        </div>
+                        <RocketStatus status="black" />
                         <h3 className="font-sans font-semibold text-sm  text-black">Old Falcon 9</h3>
                     </div>
 
                     <div className="flex flex-row gap-2 items-center">
-                        <div className="h-4 w-4 bg-orange-50">
-                        </div>
+                        <RocketStatus status="violet" />
                         <h3 className="font-sans font-semibold text-sm  text-black">New Falcon 9</h3>
                     </div>
 
                     <div className="flex flex-row gap-2 items-center">
-                        <div className="h-4 w-4 bg-blue">
-                        </div>
+                        <RocketStatus status="blue" />
                         <h3 className="font-sans font-semibold text-sm  text-black">Falcon 1</h3>
                     </div>
 
                     <div className="flex flex-row gap-2 items-center">
-                        <div className="h-4 w-4 bg-gray-50">
-                        </div>
+                        <RocketStatus status="gray" />
                         <h3 className="font-sans font-semibold text-sm  text-black">Falcon Heavy</h3>
                     </div>
                     
@@ -66,7 +60,7 @@ export function StatsOfLaunches(){
             </div>
             <div className="hidden md:flex md:w-[300px] md:h=[300px]">
                 <VictoryPie 
-                    colorScale={["#000000", "#D9D9D9", "#1267FC", "#F57C00" ]}
+                    colorScale={["#000000", "#D9D9D9", "#1267FC", "#6d28d9" ]}
                     data={statsPizza}
                     x="name"
                     y="count"

@@ -1,4 +1,4 @@
-import  rocket from "assets/rocket_icon.png";
+import rocket from "@/assets/rocket.png";
 
 export function Header(){
     return (<header className="flex w-full gap-2 bg-gray-150 h-20 justify-center items-center">

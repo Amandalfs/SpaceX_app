@@ -1,195 +1,106 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
 import { Line } from './Line';
-import { apiSpace } from '../../services/api';
-import {  useEffect, useState } from 'react';
-import { Button, TextField } from '@mui/material';
-import InputAdornment from '@mui/material/InputAdornment';
-
-import searchIconUrl from "../../assets/search.svg";
-
-interface Ilaunches {
-  id: string,
-  date_utc: string,
-  flight_number: number,
-  name: string,
-  webcast: string,
-  rocket: {
-    id: string,
-    name: string,
-  },
-  success: boolean
-}
+import { useState } from 'react';
+import { useSearchParams } from 'react-router';
+import { useQuery } from '@tanstack/react-query';
+import { getByListLaunches } from '../../services/request';
+import Navigation from './Navigation/Navigation';
+import { Table, TableBody, TableHead, TableHeader } from '../ui/table';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 export function HistoryLaunches(){
-  const [hasNext, setHasNext] = useState(null);
-  const [hasPrev, setHasPrev] = useState(null);    
-  const [totalPages, setTotalPages] = useState(0);
-  const [page, setPage] = useState(1);
-  const [update, setUpdate] = useState(false);
-  const [launches, setLaunches] = useState<Ilaunches[]>([]);
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get('page')) ?? 1;
   const [valueSearch, setValueSearch] = useState("");
+  const [search, setSearch] = useState("");
 
-  async function getBylist(){
-    const url = valueSearch?`/launches?limit=4&page=${page}&search=${valueSearch}`:`/launches?limit=4&page=${page}`
-    const response = await apiSpace.get(url);
-    setHasNext(response.data.hasNext);  
-    setHasPrev(response.data.hasPrev);
-    setTotalPages(response.data.totalPages);
-    setLaunches(response.data.launches);
-  }
-
-  function onNextPage(nextPage: string){
-    if(hasNext){
-      setPage(Number(nextPage));
-      setUpdate(!update);
+  const { data } = useQuery({
+    queryKey: ["launches", page, search],
+    queryFn: async () => {
+      const response = await getByListLaunches(search, page);
+      return response;
     }
-  }
+  });
 
-  function onPrevPage(prevPage: string){
-    if(hasPrev){
-      setPage(Number(prevPage)-1);
-      setUpdate(!update);
-    }
-  }
+  const launches = data?.launches ?? [];
+  const hasNext = data?.hasNext ?? false;
+  const hasPrev = data?.hasPrev ?? false;
+  const totalPages = data?.totalPages ?? 0;
 
-  useEffect(()=>{
-    getBylist();
-  },[update]);
-
-  return (<div className='flex flex-col'>
+  return (<div className='flex flex-col justify-center gap-8'>
     <div className='flex justify-center'>
       <h1 className='text-xl text-white font-bold'>
         Registros de lançamentos
       </h1>
     </div>
-    <div className='flex justify-center items-center h-full'>
-      <div className='flex flex-row gap-4 items-center md:mt-8 md:mb-8'>
-      <TextField
-        id="filled-basic"
-        placeholder="Search here"
-        variant="outlined"
-        className="md:w-[800px]"
-        sx={{
-          borderRadius: '8px',
-          color: 'white',
-          background: 'gray',
-        }}
-        size="small"
-        onChange={(e)=>{
-          setValueSearch(e.target.value);
-        }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <img className='h-6 w-6' src={searchIconUrl} alt="Search Icon" />
-            </InputAdornment>
-          ),
-        }}
-        />
-        
-        <Button variant='contained' size="small"
-          className="md:w-36  md:h-36"
-          sx={{
-            height: 20,
-            backgroundColor: '#F57C00',
-            color:'black',
-            "@media (min-width:600px)": {
-              height: 30,
-            },
+    <div className='flex justify-center items-center '>
+      <div className='flex flex-row gap-4 items-center w-[60%] mx-auto'>
+      <Input
+          className='bg-white w-full'
+          onChange={(e)=>{
+            setValueSearch(e.target.value);
           }}
-          onClick={()=>{
-            getBylist();
-          }}
-        >
-          Buscar
-        </Button>
+          value={valueSearch}
+          placeholder="Digite para filtrar"
+
+      /> 
+      <Button
+        className='bg-violet-700'
+        onClick={()=>{
+          setSearch(valueSearch);
+        }}
+      >Pesquisar</Button>
       </div>
     </div>
 
-    <div className='md:flex md:justify-center md:items-center mb-8 mt-8'>
-      <div className='bg-gray-500 md:w-[90%] md:justify-center'>
-        
-        <TableContainer className="md:flex md:justify-center">
-            <Table sx={{ 
-              minWidth: 300,
-              "@media (min-width:600px)": {
-                width: '80%',
-              },
-            }}>
-              <div className='hidden md:flex md:h-20 md:items-center md:justify-center'>
-                <div className='flex justify-start gap-[56px] font-bold pr-12'>
-                  <div>
-                    Nº Voo
-                  </div>
-                  <div>
-                    Logo
-                  </div>
-                <div>
-                  Missão
-                </div>
-                <div>
-                  Data de lançamento
-                </div>
-                <div>
-                  Foguete
-                </div>
-                <div className='pr-6'>
-                  Resultado
-                </div>
-                <div>
-                  Vídeo
-                </div>
-                </div>
-              </div>
-              <TableBody className='bg-gray-500 '>
-                {
-                  launches.map(({date_utc, flight_number, name, rocket, success, webcast, id})=>{
-                      return (<Line 
-                        date_utc={date_utc}
-                        flight_number={flight_number}
-                        name={name}
-                        rocket_name={rocket.name}
-                        success={success}
-                        webcast={webcast}
-                        key={id}
-                      />)
-                  })
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <div className='flex row text-right justify-end md:w-[90%]'>
-            <div className='flex flex-row gap-1 m-2'>
-              <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-                onClick={(e: any)=>{
-                  onPrevPage(e.target.innerText);
-                }}
-              >
-                {page}   
-              </button>
-              {
-              hasNext  && (<><button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-                onClick={(e: any)=>{
-                  onNextPage(e.target.innerText);
-                }}
-              >
-                {Number(page)+1}          
-              </button>
-              <button className='flex h-8 w-8 rounded-lg items-center justify-center'>
-                ...          
-              </button>
-              <button className='flex bg-orange-50 h-8 w-8 rounded-lg items-center justify-center'
-                onClick={(e: any)=>{
-                  onNextPage(e.target.innerText);
-                }}
-                >
-                {totalPages}
-              </button></>)
-              }
-            </div>
-          </div>
+    <div className='md:flex md:justify-center md:items-center'>
+      <div className='bg-white md:w-[60%] md:justify-center rounded-2xl shadow-sm p-2'>       
+        <Table>
+          <TableHeader>
+              <TableHead >
+                Nº Voo
+              </TableHead>
+              <TableHead >
+                Logo
+              </TableHead>
+              <TableHead >
+                Missão
+              </TableHead>
+              <TableHead >
+                Data de lançamento
+              </TableHead>
+              <TableHead >
+                Foguete
+              </TableHead>
+              <TableHead>
+                Resultado
+              </TableHead>
+              <TableHead >
+                Vídeo
+              </TableHead>
+          </TableHeader>
+          <TableBody>
+            {
+              launches && launches.map(({date_utc, flight_number, name, rocket, success, webcast, id})=>{
+                  return (<Line 
+                    date_utc={date_utc}
+                    flight_number={flight_number}
+                    name={name}
+                    rocket_name={rocket.name}
+                    success={success}
+                    webcast={webcast}
+                    key={id}
+                  />)
+              })
+            }
+          </TableBody>
+        </Table>
+        <Navigation 
+          page={page} 
+          totalPages={totalPages} 
+          hasNext={hasNext} 
+          hasPrev={hasPrev} 
+        />
         </div>
       </div>
   </div>)

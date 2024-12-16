@@ -1,6 +1,6 @@
 import { VictoryBar, VictoryChart, VictoryAxis } from "victory";
-import { useEffect, useState } from 'react';
-import { apiSpace } from "../../services/api";
+import { useQuery } from "@tanstack/react-query";
+import { listDatasByYears } from "../../services/request";
 
 interface IStats {
   rocketName: string,
@@ -24,53 +24,22 @@ const renderChart = (data: IStats[], color: string) => {
 };
 
 export function StatsOfLaunchesByYears(){
-  const [stats, setStats] = useState({
-    "Falcon 1_false": [{
-      rocketName: "",
-      rocketId: "",
-      year: "",
-      reused: false,
-      count:  0,
-    }],
-    "Falcon 9_false": [{
-      rocketName: "",
-      rocketId: "",
-      year: "",
-      reused: false,
-      count:  0,
-    }],
-    "Falcon 9_true": [{
-      rocketName: "",
-      rocketId: "",
-      year: "",
-      reused: false,
-      count:  0,
-    }],
-    "Falcon Heavy_false": [{
-      rocketName: "",
-      rocketId: "",
-      year: "",
-      reused: false,
-      count:  0,
-    }]
-  });
+  const { data } = useQuery({
+    queryKey: ["collumn-stats-launcheses"],
+    queryFn: ()=> {
+      const response = listDatasByYears()
+      return response;
+    }
+  })
 
-  async function listDatasByYears() {
-    const response = await apiSpace.get("/launches/stats/years");
-    setStats(response.data.stats);
-  }
-
-  useEffect(()=>{
-    listDatasByYears();
-  },[])
-
+  const stats = data ?? {};
 
   return (
-    <div className="w-full bg-gray-100 mt-8 mb-8 md:w-[500px] md:h-[400px]">
+    <div className="w-full bg-white mt-8 mb-8 md:w-[500px] md:h-[400px] rounded-lg shadow-md">
       <div className="h-60 md:h-96">
         <VictoryChart>
           {renderChart(stats["Falcon 1_false"], "#D9D9D9")}
-          {renderChart(stats["Falcon 9_false"], "#F57C00")}
+          {renderChart(stats["Falcon 9_false"], "#6d28d9")}
           {renderChart(stats["Falcon 9_true"], "#000000")}
           {renderChart(stats["Falcon Heavy_false"], "#1267FC")}
           <VictoryAxis
