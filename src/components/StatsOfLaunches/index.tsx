@@ -2,9 +2,10 @@ import { VictoryPie } from "victory";
 import { useQuery } from "@tanstack/react-query";
 import { getStatsPizza } from "../../services/request";
 import { RocketStatus } from "./Stats/Statst";
+import { Skeleton } from "../ui/skeleton";
 
 export function StatsOfLaunches(){
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ['stats-pizza'],
         queryFn: async () => {
             const response = await getStatsPizza();
@@ -16,7 +17,7 @@ export function StatsOfLaunches(){
     const success = data?.success ?? 0;
     const failures = data?.failures ?? 0;
 
-    return (<div className="flex flex-col w-full h-30 bg-white pt-4 px-8 md:w-[500px] md:h-[400px] rounded-lg shadow-md">
+    return (<div className="flex flex-col w-full h-30 bg-white pt-4 px-8 md:w-[500px] md:h-[400px] rounded-lg box-shadow-[0_0_8px_0px_rgba(0,0,0,0.25)]">
         <div className="hidden md:flex md:justify-center">
             <h1 className="font-sans font-semibold text-xl  text-black">Lançamentos de foguetes</h1>
         </div>
@@ -43,29 +44,35 @@ export function StatsOfLaunches(){
                         <h3 className="font-sans font-semibold text-sm  text-black">Falcon Heavy</h3>
                     </div>
                     
-
                 </div>
-                <div className="md:flex md:flex-col md:gap-2">
-                    <div className="flex w-full justify-center items-center md:items-end md:justify-start md:w-[98px]">
-                        <h1 className="font-sans font-bold text-1xl  text-black md:text-sm">
-                            Resultado de lançamento:
-                        </h1>
-                    </div>
-                    <div className="flex flex-col p-4 gap-2 md:gap-1 md:p-0">
+                {
+                    isLoading &&
+                        (<div className="md:flex md:flex-col md:gap-2">
+                            <Skeleton className="w-full h-4 rounded-lg md:h-6" />
+                            <Skeleton className="w-full h-4 rounded-lg md:h-6" />
+                        </div>)
+                }
+                {
+                    data &&  
+                    (<div className="md:flex md:flex-col md:gap-2">
                         <p className="font-sans font-semibold text-sm  text-black">Sucesso: <span className="text-success-50 font-bold">{success}</span></p>
                         <p className="font-sans font-semibold text-sm  text-black">Falha: <span className="text-failure-50 font-bold">{failures}</span></p>
-                    </div>
-                </div>
-
+                    </div>)
+                }
             </div>
-            <div className="hidden md:flex md:w-[300px] md:h=[300px]">
+            { 
+               isLoading && 
+               <Skeleton className="flex rounded-full w-[280px] h-[280px] mt-8" />
+            }
+            {data && <div className="hidden md:flex md:w-[300px] md:h=[300px]">
                 <VictoryPie 
                     colorScale={["#000000", "#D9D9D9", "#1267FC", "#6d28d9" ]}
                     data={statsPizza}
                     x="name"
                     y="count"
                 />
-            </div>
+            </div>}
         </div>
     </div>)
 }
+

@@ -6,7 +6,7 @@ import { HistoryLaunches } from './components/HistoryLaunches/index';
 
 function App() {
   return (
-    <main className='flex flex-col bg-gray-150 '>
+    <main className='flex flex-col h-screen bg-backgroundPrimary '>
         <Header />
         <div className='flex flex-col md:flex-row md:justify-center md:items-center md:gap-4'>
           <StatsOfLaunches />
