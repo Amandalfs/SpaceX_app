@@ -88,8 +88,8 @@ export function ColumnStatsLaunhcesByYear() {
   
   return (
     <Card className="w-[600px]">
-      <CardHeader>
-        <CardTitle>gráfico de lançamentos de foguetes por ano</CardTitle>
+      <CardHeader className="text-center">
+        <CardTitle className="text-lg">Gráfico de lançamentos de foguetes por ano</CardTitle>
       </CardHeader>
       <CardContent>
         {data && <ChartContainer config={chartConfig}>

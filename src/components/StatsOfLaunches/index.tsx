@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getStatsPizza } from "../../services/request";
 import { RocketStatus } from "./Stats/Statst";
 import { Skeleton } from "../ui/skeleton";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 export function StatsOfLaunches(){
     const { data, isLoading } = useQuery({
@@ -17,11 +18,11 @@ export function StatsOfLaunches(){
     const success = data?.success ?? 0;
     const failures = data?.failures ?? 0;
 
-    return (<div className="flex flex-col w-full h-30 bg-white pt-4 px-8 md:w-[500px] md:h-[400px] rounded-lg box-shadow-[0_0_8px_0px_rgba(0,0,0,0.25)]">
-        <div className="hidden md:flex md:justify-center">
-            <h1 className="font-sans font-semibold text-xl  text-black">Lançamentos de foguetes</h1>
-        </div>
-        <div className="md:flex md:flex-row md:justify-between md:items-center">
+    return (<Card className="w-[600px] h-[400px]">
+        <CardHeader className="text-center">
+            <CardTitle className="text-lg">Lançamentos de foguetes</CardTitle>
+        </CardHeader>
+        <CardContent className="md:flex md:flex-row md:justify-between md:items-center">
             <div className="md:flex md:flex-col gap-8">
                 <div className="hidden md:flex md:flex-col md:gap-2">
                     <div className="flex flex-row gap-2 items-center">
@@ -72,7 +73,7 @@ export function StatsOfLaunches(){
                     y="count"
                 />
             </div>}
-        </div>
-    </div>)
+        </CardContent>
+    </Card>)
 }
 
