@@ -1,16 +1,58 @@
-import { VictoryPie } from "victory";
 import { useQuery } from "@tanstack/react-query";
 import { getStatsPizza } from "../../services/request";
 import { RocketStatus } from "./Stats/Statst";
 import { Skeleton } from "../ui/skeleton";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
+    ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+  } from "@/components/ui/chart"
+import { Pie, PieChart } from "recharts"
+
+const chartConfig = {
+    count: {
+        label: "count",
+    },
+    "Falcon Heavy": {
+        label: "Falcon Heavy",
+        color: "#22D3EE"
+    },
+    "Falcon 1": {
+        label: "Falcon1",
+        color: "#1267FC",
+    },
+    "Falcon 9": {
+        label: "Falcon 9",
+        color: "#6d28d9",
+    },
+    "Falcon 9 Reused": {
+        label: "Falcon 9 Reusavel ",
+        color: "#000000",
+    }
+    
+} satisfies ChartConfig
 
 export function StatsOfLaunches(){
     const { data, isLoading } = useQuery({
         queryKey: ['stats-pizza'],
         queryFn: async () => {
             const response = await getStatsPizza();
-            return response;
+            const formatedStats = response.statsPizza.map((stats)=> {
+                if(stats.used){
+                    return {
+                        ...stats,
+                        name: `${stats.name} Reused`,
+                    }
+                }
+                return stats
+            });
+
+            return {
+                ... response,
+                statsPizza: formatedStats
+            };
         }
     })
 
@@ -27,12 +69,12 @@ export function StatsOfLaunches(){
                 <div className="hidden md:flex md:flex-col md:gap-2">
                     <div className="flex flex-row gap-2 items-center">
                         <RocketStatus status="black" />
-                        <h3 className="font-sans font-semibold text-sm  text-black">Old Falcon 9</h3>
+                        <h3 className="font-sans font-semibold text-sm  text-black">Falcon 9 Reusado</h3>
                     </div>
 
                     <div className="flex flex-row gap-2 items-center">
                         <RocketStatus status="violet" />
-                        <h3 className="font-sans font-semibold text-sm  text-black">New Falcon 9</h3>
+                        <h3 className="font-sans font-semibold text-sm  text-black">Falcon 9 Novo</h3>
                     </div>
 
                     <div className="flex flex-row gap-2 items-center">
@@ -61,18 +103,46 @@ export function StatsOfLaunches(){
                     </div>)
                 }
             </div>
+     
             { 
                isLoading && 
                <Skeleton className="flex rounded-full w-[280px] h-[280px] mt-8" />
             }
-            {data && <div className="hidden md:flex md:w-[300px] md:h=[300px]">
-                <VictoryPie 
-                    colorScale={["#000000", "#D9D9D9", "#1267FC", "#6d28d9" ]}
-                    data={statsPizza}
-                    x="name"
-                    y="count"
-                />
-            </div>}
+              {statsPizza && <ChartContainer
+                    config={chartConfig}
+                    className="aspect-square w-[400px] h-[300px]"
+                >
+                    <PieChart>
+                        <ChartTooltip content={<ChartTooltipContent nameKey="name" hideLabel />}/>
+                        <Pie
+                            data={statsPizza.map((entry) => {
+                                const configItem = chartConfig[entry.name as keyof typeof chartConfig];
+                                return {
+                                    ...entry,
+                                    fill: 'color' in configItem ? configItem.color : "#D9D9D9",
+                                };
+                            })}
+                            dataKey="count"
+                            labelLine={false}
+                            label={({ payload, ...props }) => {
+                                return (
+                                <text
+                                    cx={props.cx}
+                                    cy={props.cy}
+                                    x={props.x}
+                                    y={props.y}
+                                    textAnchor={props.textAnchor}
+                                    dominantBaseline={props.dominantBaseline}
+                                    fill={"hsla(var(--foreground))"}
+                                >
+                                    {payload.name}
+                                </text>
+                                )
+                            }}
+                            nameKey="name"
+                        />
+                    </PieChart>
+                </ChartContainer>}
         </CardContent>
     </Card>)
 }

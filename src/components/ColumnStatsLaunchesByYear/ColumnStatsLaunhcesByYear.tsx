@@ -87,7 +87,7 @@ export function ColumnStatsLaunhcesByYear() {
   })
   
   return (
-    <Card className="w-[600px]">
+    <Card className="w-[600px] h-[400px]">
       <CardHeader className="text-center">
         <CardTitle className="text-lg">Gráfico de lançamentos de foguetes por ano</CardTitle>
       </CardHeader>
