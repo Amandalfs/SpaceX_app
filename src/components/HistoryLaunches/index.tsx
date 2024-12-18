@@ -7,7 +7,6 @@ import Navigation from './Navigation/Navigation';
 import { Table, TableBody, TableHead, TableHeader } from '../ui/table';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { Pagination } from '../ui/pagination';
 
 export function HistoryLaunches(){
   const [searchParams] = useSearchParams();
@@ -97,9 +96,6 @@ export function HistoryLaunches(){
           hasNext={data?.hasNext ?? false} 
           hasPrev={data?.hasPrev ?? false} 
         />
-        <Pagination>
-          
-        </Pagination>
         </div>
       </div>
   </div>)
