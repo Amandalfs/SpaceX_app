@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/chart"
 import { useQuery } from "@tanstack/react-query"
 import { listDatasByYears } from "@/services/request"
+import { Skeleton } from "../ui/skeleton"
 
 const chartConfig = {
   falcon1: {
@@ -37,7 +38,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ColumnStatsLaunhcesByYear() {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["collumn-stats-launcheses"],
     queryFn: async () => {
       const stats = await listDatasByYears()
@@ -128,6 +129,9 @@ export function ColumnStatsLaunhcesByYear() {
             />
           </BarChart>
         </ChartContainer>}
+        {
+          isLoading && <Skeleton className="h-[300px]" />
+        }
       </CardContent>
     </Card>
   )
