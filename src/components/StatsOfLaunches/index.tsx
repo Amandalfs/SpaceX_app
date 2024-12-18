@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getStatsPizza } from "../../services/request";
 import { RocketStatus } from "./Stats/Statst";
 import { Skeleton } from "../ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import {
     ChartConfig,
     ChartContainer,
@@ -91,29 +91,29 @@ export function StatsOfLaunches(){
                 {
                     isLoading &&
                         (<div className="md:flex md:flex-col md:gap-2">
-                            <Skeleton className="w-full h-4 rounded-lg md:h-6" />
-                            <Skeleton className="w-full h-4 rounded-lg md:h-6" />
+                            <Skeleton className="w-[140px] h-[20px] rounded-lg md:h-6" />
+                            <Skeleton className="w-[140px] h-[20px] rounded-lg md:h-6" />
                         </div>)
                 }
                 {
                     data &&  
-                    (<div className="md:flex md:flex-col md:gap-2">
+                    (<div className="hidden md:flex md:flex-col md:gap-2">
                         <p className="font-sans font-semibold text-sm  text-black">Sucesso: <span className="text-success-50 font-bold">{success}</span></p>
                         <p className="font-sans font-semibold text-sm  text-black">Falha: <span className="text-failure-50 font-bold">{failures}</span></p>
                     </div>)
                 }
             </div>
-     
             { 
                isLoading && 
-               <Skeleton className="flex rounded-full w-[280px] h-[280px] mt-8" />
+                <Skeleton className="w-[400px] h-[250px]" />
             }
-              {statsPizza && <ChartContainer
+            {   
+                statsPizza &&  !isLoading && <ChartContainer
                     config={chartConfig}
-                    className="aspect-square w-[400px] h-[300px]"
+                    className="aspect-square md:w-[400px] md:h-[300px] w-[50%] h-[50%] mx-auto"
                 >
                     <PieChart>
-                        <ChartTooltip content={<ChartTooltipContent nameKey="name" hideLabel />}/>
+                        <ChartTooltip content={<ChartTooltipContent nameKey="name" hideLabel  />}/>
                         <Pie
                             data={statsPizza.map((entry) => {
                                 const configItem = chartConfig[entry.name as keyof typeof chartConfig];
@@ -142,7 +142,12 @@ export function StatsOfLaunches(){
                             nameKey="name"
                         />
                     </PieChart>
-                </ChartContainer>}
+                </ChartContainer>
+            }
+            <CardFooter className="flex md:hidden justify-center">
+                <p className="font-sans font-semibold text-sm  text-black">Sucesso: <span className="text-success-50 font-bold">{success}</span></p>
+                <p className="font-sans font-semibold text-sm  text-black">Falha: <span className="text-failure-50 font-bold">{failures}</span></p>
+            </CardFooter>
         </CardContent>
     </Card>)
 }
