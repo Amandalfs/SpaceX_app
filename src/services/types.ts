@@ -31,9 +31,17 @@ export interface ResponseGetLaunchesByList {
 
 
 export interface StatsPizzaResponse {
+    statsPizza: Array<{
+        name: string;
+        used: boolean;
+        count: number;
+    }>;
     success: number;
     failures: number;
-    statsPizza: Array<{
+}
+
+export interface StatsColumnResponse {
+    [key: string]: Array<{
         rocketName: string;
         rocketId: string;
         year: string;

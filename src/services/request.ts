@@ -1,5 +1,5 @@
 import { apiSpace } from "./api";
-import { ResponseGetLaunchesByList, StatsPizzaResponse } from "./types";
+import { ResponseGetLaunchesByList, StatsColumnResponse, StatsPizzaResponse } from "./types";
 
 export const getByListLaunches =  async (value: string, page: number): Promise<ResponseGetLaunchesByList> => {
     const filters = [];
@@ -16,18 +16,6 @@ export const getByListLaunches =  async (value: string, page: number): Promise<R
 export const getStatsPizza = async (): Promise<StatsPizzaResponse> => {
     const response = await apiSpace.get("/launches/stats");
     return response.data;
-}
-
-
-
-interface StatsColumnResponse {
-    [key: string]: Array<{
-        rocketName: string;
-        rocketId: string;
-        year: string;
-        reused: boolean;
-        count: number;
-    }>;
 }
 
 export const listDatasByYears = async (): Promise<StatsColumnResponse> => {

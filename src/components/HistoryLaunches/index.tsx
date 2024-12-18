@@ -10,7 +10,7 @@ import { Input } from '../ui/input';
 
 export function HistoryLaunches(){
   const [searchParams] = useSearchParams();
-  const page = Number(searchParams.get('page')) ?? 1;
+  const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
   const [valueSearch, setValueSearch] = useState("");
   const [search, setSearch] = useState("");
 
@@ -22,18 +22,13 @@ export function HistoryLaunches(){
     }
   });
 
-  const launches = data?.launches ?? [];
-  const hasNext = data?.hasNext ?? false;
-  const hasPrev = data?.hasPrev ?? false;
-  const totalPages = data?.totalPages ?? 0;
-
-  return (<div className='flex flex-col justify-center gap-8'>
+  return (<div className='flex flex-col justify-center gap-8 '>
     <div className='flex justify-center'>
-      <h1 className='text-xl text-white font-bold'>
+      <h1 className='text-xl text-[#222] font-bold'>
         Registros de lançamentos
       </h1>
     </div>
-    <div className='flex justify-center items-center '>
+    <div className='flex justify-center items-center'>
       <div className='flex flex-row gap-4 items-center w-[60%] mx-auto'>
       <Input
           className='bg-white w-full'
@@ -53,35 +48,35 @@ export function HistoryLaunches(){
       </div>
     </div>
 
-    <div className='md:flex md:justify-center md:items-center'>
-      <div className='bg-white md:w-[60%] md:justify-center rounded-2xl shadow-sm p-2'>       
+    <div className='md:flex md:justify-center md:items-center border-2 '>
+      <div className='border flex-col rounded-2xl shadow-sm p-2'>       
         <Table>
-          <TableHeader>
-              <TableHead >
+          <TableHeader >
+              <TableHead className="px-8">
                 Nº Voo
               </TableHead>
-              <TableHead >
+              <TableHead className="px-8">
                 Logo
               </TableHead>
-              <TableHead >
+              <TableHead className="px-8">
                 Missão
               </TableHead>
-              <TableHead >
+              <TableHead className="px-8">
                 Data de lançamento
               </TableHead>
-              <TableHead >
+              <TableHead className="px-8">
                 Foguete
               </TableHead>
-              <TableHead>
+              <TableHead className="px-8">
                 Resultado
               </TableHead>
-              <TableHead >
+              <TableHead className="px-8">
                 Vídeo
               </TableHead>
           </TableHeader>
           <TableBody>
             {
-              launches && launches.map(({date_utc, flight_number, name, rocket, success, webcast, id})=>{
+              data?.launches && data.launches.map(({date_utc, flight_number, name, rocket, success, webcast, id})=>{
                   return (<Line 
                     date_utc={date_utc}
                     flight_number={flight_number}
@@ -96,10 +91,10 @@ export function HistoryLaunches(){
           </TableBody>
         </Table>
         <Navigation 
-          page={page} 
-          totalPages={totalPages} 
-          hasNext={hasNext} 
-          hasPrev={hasPrev} 
+          page={data?.page ?? 0} 
+          totalPages={data?.totalPages ?? 0} 
+          hasNext={data?.hasNext ?? false} 
+          hasPrev={data?.hasPrev ?? false} 
         />
         </div>
       </div>
