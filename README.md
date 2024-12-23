@@ -48,6 +48,8 @@ Estatísticas detalhadas: Explore as estatísticas completas de todos os lançam
 
 <br>
 <img alt="Layout feito por Amanda" src="https://i.imgur.com/KBDYP1L.png">
+![image](https://github.com/user-attachments/assets/91eefb68-5298-4560-9c10-7105324ef373)
+
 <div style="displey:flex">
 <img alt="Layout feito por Amanda" src="https://i.imgur.com/nYaEBJu.png">
 <img alt="Layout feito por Amanda" src="https://i.imgur.com/LEVhYcJ.png">
