@@ -46,15 +46,10 @@ Estatísticas detalhadas: Explore as estatísticas completas de todos os lançam
 
 ## Layout
 
-<br>
-<img alt="Layout feito por Amanda" src="https://i.imgur.com/KBDYP1L.png">
 ![image](https://github.com/user-attachments/assets/91eefb68-5298-4560-9c10-7105324ef373)
+![image](https://github.com/user-attachments/assets/2675e485-db7f-4180-a4b0-e688a83188d7)
 
-<div style="displey:flex">
-<img alt="Layout feito por Amanda" src="https://i.imgur.com/nYaEBJu.png">
-<img alt="Layout feito por Amanda" src="https://i.imgur.com/LEVhYcJ.png">
-</div>
-<br>
+
 
 ---
 ## 🛣️ Como executar o projeto
