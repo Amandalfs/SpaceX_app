@@ -16,7 +16,7 @@ interface IHistory {
 export function Line({ date_utc, flight_number, name, rocket_name, success, webcast}: IHistory){
     return (<TableRow className="bg-white text-center">
         <TableCell>
-            <h1 className='font-semibold text-lg'>
+            <h1 className='text-primary selection:marker:font-semibold text-lg'>
                 {flight_number}
             </h1>
         </TableCell>
@@ -24,13 +24,13 @@ export function Line({ date_utc, flight_number, name, rocket_name, success, webc
             <img className="w-8 h-8 mx-auto" src={satelite} alt="" />
         </TableCell>
         <TableCell>
-            <h1 className='font-medium text-lg'>{name}</h1>
+            <h1 className='text-primary font-medium text-lg'>{name}</h1>
         </TableCell>
         <TableCell>
-            <h1 className='font-medium text-lg'>{format(new Date(date_utc), 'dd/MM/yyyy')}</h1>
+            <h1 className='text-primary ont-medium text-lg'>{format(new Date(date_utc), 'dd/MM/yyyy')}</h1>
         </TableCell>
         <TableCell>
-            <h1 className='font-medium text-lg'>{rocket_name}</h1>
+            <h1 className='text-primary font-medium text-lg'>{rocket_name}</h1>
         </TableCell>
         <TableCell>
             {

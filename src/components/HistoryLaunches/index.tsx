@@ -4,9 +4,11 @@ import { useSearchParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { getByListLaunches } from '../../services/request';
 import Navigation from './Navigation/Navigation';
-import { Table, TableBody, TableHead, TableHeader } from '../ui/table';
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { Card, CardContent } from '../ui/card';
+import { Skeleton } from '../ui/skeleton';
 
 export function HistoryLaunches(){
   const [searchParams] = useSearchParams();
@@ -14,7 +16,7 @@ export function HistoryLaunches(){
   const [valueSearch, setValueSearch] = useState("");
   const [search, setSearch] = useState("");
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["launches", page, search],
     queryFn: async () => {
       const response = await getByListLaunches(search, page);
@@ -22,14 +24,14 @@ export function HistoryLaunches(){
     }
   });
 
-  return (<div className='flex flex-col justify-center gap-8 '>
+  return (<section className='flex flex-col justify-center gap-8 '>
     <div className='flex justify-center'>
-      <h1 className='text-xl text-[#222] font-bold'>
+      <h2 className='text-2xl text-primary font-bold'>
         Registros de lançamentos
-      </h1>
+      </h2>
     </div>
     <div className='flex justify-center items-center'>
-      <div className='flex flex-row gap-4 items-center w-[60%] mx-auto'>
+      <div className='flex flex-row gap-4 items-center w-[70%] h-14 mx-auto'>
       <Input
           className='bg-white w-full'
           onChange={(e)=>{
@@ -48,55 +50,72 @@ export function HistoryLaunches(){
       </div>
     </div>
 
-    <div className='md:flex md:justify-center md:items-center border-2 '>
-      <div className='border flex-col rounded-2xl shadow-sm p-2'>       
-        <Table>
-          <TableHeader >
-              <TableHead className="px-8">
-                Nº Voo
-              </TableHead>
-              <TableHead className="px-8">
-                Logo
-              </TableHead>
-              <TableHead className="px-8">
-                Missão
-              </TableHead>
-              <TableHead className="px-8">
-                Data de lançamento
-              </TableHead>
-              <TableHead className="px-8">
-                Foguete
-              </TableHead>
-              <TableHead className="px-8">
-                Resultado
-              </TableHead>
-              <TableHead className="px-8">
-                Vídeo
-              </TableHead>
-          </TableHeader>
-          <TableBody>
-            {
-              data?.launches && data.launches.map(({date_utc, flight_number, name, rocket, success, webcast, id})=>{
-                  return (<Line 
-                    date_utc={date_utc}
-                    flight_number={flight_number}
-                    name={name}
-                    rocket_name={rocket.name}
-                    success={success}
-                    webcast={webcast}
-                    key={id}
-                  />)
-              })
-            }
-          </TableBody>
-        </Table>
-        <Navigation 
-          page={data?.page ?? 0} 
-          totalPages={data?.totalPages ?? 0} 
-          hasNext={data?.hasNext ?? false} 
-          hasPrev={data?.hasPrev ?? false} 
-        />
-        </div>
-      </div>
-  </div>)
+    <Card className='w-[70%] h-[90%] mx-auto mb-8'>
+      <CardContent>       
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="px-8 text-center text-primary">
+                  Nº Voo
+                </TableHead>
+                <TableHead className="px-8 text-center text-primary">
+                  Logo
+                </TableHead>
+                <TableHead className="px-8 text-center text-primary">
+                  Missão
+                </TableHead>
+                <TableHead className="px-8 text-center text-primary">
+                  Data de lançamento
+                </TableHead>
+                <TableHead className="px-8 text-center text-primary">
+                  Foguete
+                </TableHead>
+                <TableHead className="px-8 text-center text-primary">
+                  Resultado
+                </TableHead>
+                <TableHead className="px-8 text-center text-primary">
+                  Vídeo
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {
+                data?.launches && data.launches.map(({date_utc, flight_number, name, rocket, success, webcast, id})=>{
+                    return (<Line 
+                      date_utc={date_utc}
+                      flight_number={flight_number}
+                      name={name}
+                      rocket_name={rocket.name}
+                      success={success}
+                      webcast={webcast}
+                      key={id}
+                    />)
+                })
+              }
+              {
+                isLoading  && (Array.from({ length: 5 }).map((_, index) => (
+                <TableRow key={index}>
+                  <TableCell colSpan={7}>
+                    <Skeleton className='w-full rounded-lg h-8'/>
+                  </TableCell>
+                </TableRow>
+              )))
+              }
+            </TableBody>
+            <TableFooter>
+              <TableRow className="text-right">
+                <TableCell colSpan={7}>
+                  <Navigation 
+                    page={data?.page ?? 0} 
+                    totalPages={data?.totalPages ?? 0} 
+                    hasNext={data?.hasNext ?? false} 
+                    hasPrev={data?.hasPrev ?? false} 
+                    />
+                  </TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+      </CardContent>
+    </Card>
+  </section>)
 }

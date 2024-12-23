@@ -1,3 +1,5 @@
+import tailwindcssAnimate from "tailwindcss-animate";
+
 /** @type {import('tailwindcss').Config} */
 export default {
 darkMode: ["class"],
@@ -7,6 +9,9 @@ content: [
 ],
 theme: {
 extend: {
+	fontFamily: {
+        sans: ['Poppins', 'sans-serif'],
+    },
 	colors: {
 		black: '#000000',
 		orange: {
@@ -14,7 +19,7 @@ extend: {
 			'100': '#F57C00'
 		},
 		blue: '#1267FC',
-		white: '#FFFFFF',
+		white: '#f4f5ff',
 		gray: {
 			'50': '#D9D9D9',
 			'100': '#6C757D',
@@ -26,10 +31,14 @@ extend: {
 		},
 		failure: {
 			'50': '#8B2A2D',
-			'100': '#8D0606'
+			'100': '#8D0606',
+			'150': '#FF0000'
 		},
 		backgroundPrimary: {
-			DEFAULT: '#fcfcfc',
+			DEFAULT: '#ede9fe',
+		},
+		backgroundSecondary: {	
+			DEFAULT: '#ddd6fe',
 		},
 		background: 'hsl(var(--background))',
 		foreground: 'hsl(var(--foreground))',
@@ -79,6 +88,6 @@ extend: {
 	}
 }
 },
-plugins: [require("tailwindcss-animate")],
+plugins: [tailwindcssAnimate],
 }
 

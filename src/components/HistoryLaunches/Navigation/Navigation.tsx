@@ -44,23 +44,31 @@ const Navigation = ({page, totalPages, hasNext, hasPrev}: {
       };
 
     return (
-        <div className='flex row text-right justify-end md:w-[90%]'>
+        <nav className='flex row text-right justify-end md:w-[90%]'>
             <div className='flex flex-row gap-1 m-2'>
-                {(page !== 1) && (1 !== page-1) && <button className='flex bg-violet-700 h-8 w-8 rounded-lg items-center justify-center text-white'
+                {(page !== 1) && (1 !== page-1) && 
+                    <button className='flex bg-violet-700 h-8 w-8 rounded-lg items-center justify-center text-white'
                     onClick={firstPage}
+                    about="Primeira página"
                 >
                     {1}   
                 </button>}
 
-                {hasPrev && <button className='flex bg-violet-700 h-8 w-8 rounded-lg items-center justify-center text-white'
+                {hasPrev && <button 
+                    className='flex bg-violet-700 h-8 w-8 rounded-lg items-center justify-center text-white'
                     onClick={previusPage}
+                    about="Página anterior"
                 >
                     {page && (page - 1)}   
                 </button>}
                 
 
-                <button className='flex bg-violet-700 h-8 w-8 rounded-lg items-center justify-center text-white'>
-                    {Number(page)}          
+                <button 
+                    className='flex border-1 border-violet-700 bg-backgroundPrimary h-8 w-8 rounded-lg items-center justify-center text-violet-700 text-card-foreground shadow' 
+                    disabled
+                    about="Página atual"
+                >
+                   {Number(page)}          
                 </button>
                 {hasNext && <><button className='flex bg-violet-700 h-8 w-8 rounded-lg items-center justify-center text-white'
                     onClick={nextPage}
@@ -72,11 +80,12 @@ const Navigation = ({page, totalPages, hasNext, hasPrev}: {
                 </button>
                 <button className='flex bg-violet-700 h-8 w-8 rounded-lg items-center justify-center text-white'
                     onClick={lastPage}
+                    about="Última página"
                 >
                     {totalPages}
                 </button></>}
             </div>
-        </div>
+        </nav>
     );
 }
 
