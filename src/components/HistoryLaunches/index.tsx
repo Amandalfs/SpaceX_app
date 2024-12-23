@@ -31,23 +31,28 @@ export function HistoryLaunches(){
       </h2>
     </div>
     <div className='flex justify-center items-center'>
-      <div className='flex flex-row gap-4 items-center w-[70%] h-14 mx-auto'>
-      <Input
-          className='bg-white w-full'
-          onChange={(e)=>{
-            setValueSearch(e.target.value);
-          }}
-          value={valueSearch}
-          placeholder="Digite para filtrar"
+      <form className='flex flex-row gap-4 items-center w-[70%] h-14 mx-auto'
+      onSubmit={(e)=>{
+        e.preventDefault();
+        setSearch(valueSearch);
+      }}>
+        <Input
+            className='bg-white w-full'
+            onChange={(e)=>{
+              setValueSearch(e.target.value);
+            }}
+            value={valueSearch}
+            placeholder="Digite para filtrar"
 
-      /> 
-      <Button
-        className='bg-violet-700'
-        onClick={()=>{
-          setSearch(valueSearch);
-        }}
-      >Pesquisar</Button>
-      </div>
+        /> 
+        <Button
+          className='bg-violet-700'
+          onClick={()=>{
+            setSearch(valueSearch);
+          }}
+          type='button'
+        >Pesquisar</Button>
+      </form>
     </div>
 
     <Card className='w-[70%] h-[90%] mx-auto mb-8'>
