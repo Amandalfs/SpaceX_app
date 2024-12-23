@@ -1,3 +1,5 @@
+import tailwindcssAnimate from "tailwindcss-animate";
+
 /** @type {import('tailwindcss').Config} */
 export default {
 darkMode: ["class"],
@@ -37,9 +39,6 @@ extend: {
 		},
 		backgroundSecondary: {	
 			DEFAULT: '#ddd6fe',
-		},
-		primary: {
-			DEFAULT: '#4c1d95',
 		},
 		background: 'hsl(var(--background))',
 		foreground: 'hsl(var(--foreground))',
@@ -89,6 +88,6 @@ extend: {
 	}
 }
 },
-plugins: [require("tailwindcss-animate")],
+plugins: [tailwindcssAnimate],
 }
 

@@ -24,7 +24,7 @@ export function HistoryLaunches(){
     }
   });
 
-  return (<div className='flex flex-col justify-center gap-8 '>
+  return (<section className='flex flex-col justify-center gap-8 '>
     <div className='flex justify-center'>
       <h2 className='text-2xl text-primary font-bold'>
         Registros de lançamentos
@@ -117,5 +117,5 @@ export function HistoryLaunches(){
           </Table>
       </CardContent>
     </Card>
-  </div>)
+  </section>)
 }
