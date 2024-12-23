@@ -26,12 +26,12 @@ export function HistoryLaunches(){
 
   return (<div className='flex flex-col justify-center gap-8 '>
     <div className='flex justify-center'>
-      <h1 className='text-xl text-[#222] font-bold'>
+      <h2 className='text-2xl text-primary font-bold'>
         Registros de lançamentos
-      </h1>
+      </h2>
     </div>
     <div className='flex justify-center items-center'>
-      <div className='flex flex-row gap-4 items-center w-[60%] mx-auto'>
+      <div className='flex flex-row gap-4 items-center w-[70%] h-14 mx-auto'>
       <Input
           className='bg-white w-full'
           onChange={(e)=>{
