@@ -29,7 +29,8 @@ extend: {
 		},
 		failure: {
 			'50': '#8B2A2D',
-			'100': '#8D0606'
+			'100': '#8D0606',
+			'150': '#FF0000'
 		},
 		backgroundPrimary: {
 			DEFAULT: '#ede9fe',

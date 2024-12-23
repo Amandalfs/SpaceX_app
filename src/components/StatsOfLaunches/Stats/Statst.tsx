@@ -9,9 +9,9 @@ export const RocketStatus = ({ status }: RocketStatusProps) => {
     "h-4 w-4 shadow-md",
     {
       "bg-violet-700": status === "violet",
-      "bg-blue": status === "blue",
-      "bg-[#22D3EE]": status === "gray",
-      "bg-black": status === "black",
+      "bg-[#6366f1]": status === "blue",
+      "bg-[#6ee7b7]": status === "gray",
+      "bg-[#475569]": status === "black",
     }
   );
 

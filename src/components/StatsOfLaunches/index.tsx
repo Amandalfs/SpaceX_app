@@ -17,11 +17,11 @@ const chartConfig = {
     },
     "Falcon Heavy": {
         label: "Falcon Heavy",
-        color: "#22D3EE"
+        color: "#6ee7b7"
     },
     "Falcon 1": {
         label: "Falcon1",
-        color: "#1267FC",
+        color: "#6366f1",
     },
     "Falcon 9": {
         label: "Falcon 9",
@@ -29,7 +29,7 @@ const chartConfig = {
     },
     "Falcon 9 Reused": {
         label: "Falcon 9 Reusavel ",
-        color: "#000000",
+        color: "#475569",
     }
     
 } satisfies ChartConfig
@@ -69,22 +69,22 @@ export function StatsOfLaunches(){
                 <div className="hidden md:flex md:flex-col md:gap-2">
                     <div className="flex flex-row gap-2 items-center">
                         <RocketStatus status="black" />
-                        <h3 className="font-sans font-semibold text-sm  text-black">Falcon 9 Reusado</h3>
+                        <h3 className="font-sans font-semibold text-sm  text-primary">Falcon 9 Reusado</h3>
                     </div>
 
                     <div className="flex flex-row gap-2 items-center">
                         <RocketStatus status="violet" />
-                        <h3 className="font-sans font-semibold text-sm  text-black">Falcon 9 Novo</h3>
+                        <h3 className="font-sans font-semibold text-sm  text-primary">Falcon 9 Novo</h3>
                     </div>
 
                     <div className="flex flex-row gap-2 items-center">
                         <RocketStatus status="blue" />
-                        <h3 className="font-sans font-semibold text-sm  text-black">Falcon 1</h3>
+                        <h3 className="font-sans font-semibold text-sm  text-primary">Falcon 1</h3>
                     </div>
 
                     <div className="flex flex-row gap-2 items-center">
                         <RocketStatus status="gray" />
-                        <h3 className="font-sans font-semibold text-sm  text-black">Falcon Heavy</h3>
+                        <h3 className="font-sans font-semibold text-sm  text-primary">Falcon Heavy</h3>
                     </div>
                     
                 </div>
@@ -98,8 +98,8 @@ export function StatsOfLaunches(){
                 {
                     data &&  
                     (<div className="hidden md:flex md:flex-col md:gap-2">
-                        <p className="font-sans font-semibold text-sm  text-black">Sucesso: <span className="text-success-50 font-bold">{success}</span></p>
-                        <p className="font-sans font-semibold text-sm  text-black">Falha: <span className="text-failure-50 font-bold">{failures}</span></p>
+                        <p className="font-sans font-semibold text-sm  text-primary">Sucessos: <span className="text-success-50 font-bold">{success}</span></p>
+                        <p className="font-sans font-semibold text-sm  text-primary">Falhas: <span className="text-failure-150 font-bold">{failures}</span></p>
                     </div>)
                 }
             </div>
@@ -113,7 +113,7 @@ export function StatsOfLaunches(){
                     className="aspect-square md:w-[400px] md:h-[300px] w-[50%] h-[50%] mx-auto"
                 >
                     <PieChart>
-                        <ChartTooltip content={<ChartTooltipContent nameKey="name" hideLabel  />}/>
+                        <ChartTooltip content={<ChartTooltipContent nameKey="name" hideLabel />}/>
                         <Pie
                             data={statsPizza.map((entry) => {
                                 const configItem = chartConfig[entry.name as keyof typeof chartConfig];
@@ -145,8 +145,8 @@ export function StatsOfLaunches(){
                 </ChartContainer>
             }
             <CardFooter className="flex md:hidden justify-center">
-                <p className="font-sans font-semibold text-sm  text-black">Sucesso: <span className="text-success-50 font-bold">{success}</span></p>
-                <p className="font-sans font-semibold text-sm  text-black">Falha: <span className="text-failure-50 font-bold">{failures}</span></p>
+                <p className="font-sans font-semibold text-sm  text-primary">Sucesso: <span className="text-success-50 font-bold">{success}</span></p>
+                <p className="font-sans font-semibold text-sm  text-primary">Falha: <span className="text-failure-50 font-bold">{failures}</span></p>
             </CardFooter>
         </CardContent>
     </Card>)

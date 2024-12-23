@@ -21,7 +21,7 @@ import { Skeleton } from "../ui/skeleton"
 const chartConfig = {
   falcon1: {
     label: "Falcon 1",
-    color: "#1267FC",
+    color: "#6366f1",
   },
   falcon9: {
     label: "Falcon 9",
@@ -29,11 +29,11 @@ const chartConfig = {
   },
   falcon9Reused: {
     label: "Falcon 9 (Reusable)",
-    color: "#000",
+    color: "#475569",
   },
   falconHeavy: {
     label: "Falcon Heavy ",
-    color:  "#22D3EE",
+    color:  "#6ee7b7",
   },
 } satisfies ChartConfig;
 
@@ -125,7 +125,7 @@ export function ColumnStatsLaunhcesByYear() {
               dataKey="falconHeavy"
               stackId="a"
               fill="var(--color-falconHeavy)"
-              radius={[4, 4, 0, 0]}
+              radius={[0, 0, 0, 0]}
             />
           </BarChart>
         </ChartContainer>}
