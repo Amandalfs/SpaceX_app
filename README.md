@@ -46,15 +46,17 @@ Estatísticas detalhadas: Explore as estatísticas completas de todos os lançam
 
 ## Layout
 
-<br>
-<img alt="Layout feito por Amanda" src="https://i.imgur.com/KBDYP1L.png">
-![image](https://github.com/user-attachments/assets/91eefb68-5298-4560-9c10-7105324ef373)
+# Mobile
 
-<div style="displey:flex">
-<img alt="Layout feito por Amanda" src="https://i.imgur.com/nYaEBJu.png">
-<img alt="Layout feito por Amanda" src="https://i.imgur.com/LEVhYcJ.png">
-</div>
-<br>
+![image](https://github.com/user-attachments/assets/72530198-63f6-4670-810a-309a8fb78e81)
+![image](https://github.com/user-attachments/assets/b51a89cf-643c-4825-ad57-1f6955d6dc20)
+![image](https://github.com/user-attachments/assets/5a3402f9-1a94-4f50-9e0c-6469977c7aef)
+
+# Desktop
+
+![image](https://github.com/user-attachments/assets/017982ed-a52c-4af9-8100-b4af93e5dada)
+![image](https://github.com/user-attachments/assets/08182551-9023-4d3d-81a8-984326ac6a63)
+
 
 ---
 ## 🛣️ Como executar o projeto
