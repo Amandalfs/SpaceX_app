@@ -63,7 +63,7 @@ export function HistoryLaunches(){
       </form>
     </div>
 
-    <Card className='w-[1216px] h-[90%] mx-auto mb-8'>
+    <Card className='overflow-x-auto w-[360px] md:w-[1216px] h-[90%] mx-auto mb-8'>
       <CardContent>       
           <Table>
             <TableHeader>
@@ -116,7 +116,7 @@ export function HistoryLaunches(){
               }
             </TableBody>
             <TableFooter>
-              <TableRow className="text-right">
+              <TableRow className="md:text-right hidden">
                 <TableCell colSpan={7}>
                   <Navigation 
                     page={data?.page ?? 0} 
@@ -124,7 +124,17 @@ export function HistoryLaunches(){
                     hasNext={data?.hasNext ?? false} 
                     hasPrev={data?.hasPrev ?? false} 
                     />
-                  </TableCell>
+                </TableCell>
+              </TableRow>
+              <TableRow className="md:text-right md:hidden block">
+                <TableCell colSpan={7}>
+                  <Navigation 
+                    page={data?.page ?? 0} 
+                    totalPages={data?.totalPages ?? 0} 
+                    hasNext={data?.hasNext ?? false} 
+                    hasPrev={data?.hasPrev ?? false} 
+                    />
+                </TableCell>
               </TableRow>
             </TableFooter>
           </Table>
