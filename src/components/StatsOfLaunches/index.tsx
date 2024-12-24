@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getStatsPizza } from "../../services/request";
-import { RocketStatus } from "./Stats/Statst";
+import { RocketStatus } from "./Stats/Stats";
 import { Skeleton } from "../ui/skeleton";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import {
