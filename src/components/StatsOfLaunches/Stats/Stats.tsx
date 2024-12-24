@@ -1,8 +1,5 @@
 import clsx from "clsx";
-
-interface RocketStatusProps {
-  status: "violet" | "blue" | "gray" | "black";
-}
+import { RocketStatusProps } from "./type";
 
 export const RocketStatus = ({ status }: RocketStatusProps) => {
   const statusClasses = clsx(

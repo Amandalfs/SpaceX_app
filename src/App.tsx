@@ -6,9 +6,9 @@ import { ColumnStatsLaunhcesByYear } from './components/ColumnStatsLaunchesByYea
 
 function App() {
   return (
-    <main className='flex flex-col h-full bg-backgroundPrimary gap-8 '>
+    <main className='flex flex-col w-full h-full bg-backgroundPrimary gap-8 '>
         <Header />
-        <div className='flex flex-col md:flex-row md:justify-center md:items-center md:gap-4'>
+        <div className='flex flex-col md:flex-row md:justify-center items-center gap-4'>
           <StatsOfLaunches />
           <ColumnStatsLaunhcesByYear />
         </div>

@@ -11,7 +11,7 @@ import { Card, CardContent } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
 
 export function HistoryLaunches(){
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
   const [valueSearch, setValueSearch] = useState("");
   const [search, setSearch] = useState("");
@@ -31,9 +31,13 @@ export function HistoryLaunches(){
       </h2>
     </div>
     <div className='flex justify-center items-center'>
-      <form className='flex flex-row gap-4 items-center w-[70%] h-14 mx-auto'
+      <form className='flex flex-row gap-4 items-center md:w-[1216px] h-14 mx-auto'
       onSubmit={(e)=>{
         e.preventDefault();
+        setSearchParams((params) => {
+          params.set("page", '1');
+          return params;
+        });
         setSearch(valueSearch);
       }}>
         <Input
@@ -48,6 +52,10 @@ export function HistoryLaunches(){
         <Button
           className='bg-violet-700'
           onClick={()=>{
+            setSearchParams((params) => {
+              params.set("page", '1');
+              return params;
+            });
             setSearch(valueSearch);
           }}
           type='button'
@@ -55,7 +63,7 @@ export function HistoryLaunches(){
       </form>
     </div>
 
-    <Card className='w-[70%] h-[90%] mx-auto mb-8'>
+    <Card className='overflow-x-auto w-[360px] md:w-[1216px] h-[90%] mx-auto mb-8'>
       <CardContent>       
           <Table>
             <TableHeader>
@@ -108,7 +116,7 @@ export function HistoryLaunches(){
               }
             </TableBody>
             <TableFooter>
-              <TableRow className="text-right">
+              <TableRow className="md:text-right hidden">
                 <TableCell colSpan={7}>
                   <Navigation 
                     page={data?.page ?? 0} 
@@ -116,7 +124,17 @@ export function HistoryLaunches(){
                     hasNext={data?.hasNext ?? false} 
                     hasPrev={data?.hasPrev ?? false} 
                     />
-                  </TableCell>
+                </TableCell>
+              </TableRow>
+              <TableRow className="md:text-right md:hidden block">
+                <TableCell colSpan={7}>
+                  <Navigation 
+                    page={data?.page ?? 0} 
+                    totalPages={data?.totalPages ?? 0} 
+                    hasNext={data?.hasNext ?? false} 
+                    hasPrev={data?.hasPrev ?? false} 
+                    />
+                </TableCell>
               </TableRow>
             </TableFooter>
           </Table>

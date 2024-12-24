@@ -3,15 +3,7 @@ import youtube from "../../../assets/youtube.png";
 import satelite from "../../../assets/rocket.png";
 import { format } from "date-fns";
 import { TableCell, TableRow } from "@/components/ui/table";
-
-interface IHistory {
-    date_utc: string,
-    flight_number: number,
-    name: string,
-    webcast: string,
-    rocket_name: string,
-    success: boolean
-}
+import { IHistory } from "./type";
 
 export function Line({ date_utc, flight_number, name, rocket_name, success, webcast}: IHistory){
     return (<TableRow className="bg-white text-center">

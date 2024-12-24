@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getStatsPizza } from "../../services/request";
-import { RocketStatus } from "./Stats/Statst";
+import { RocketStatus } from "./Stats/Stats";
 import { Skeleton } from "../ui/skeleton";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import {
@@ -60,7 +60,7 @@ export function StatsOfLaunches(){
     const success = data?.success ?? 0;
     const failures = data?.failures ?? 0;
 
-    return (<Card className="w-[600px] h-[400px]">
+    return (<Card className="md:w-[600px] md:h-[400px] w-[360px] h-600">
         <CardHeader className="text-center">
             <CardTitle className="text-lg">Lançamentos de foguetes</CardTitle>
         </CardHeader>
@@ -105,7 +105,7 @@ export function StatsOfLaunches(){
             </div>
             { 
                isLoading && 
-                <Skeleton className="w-[400px] h-[250px]" />
+                <Skeleton className="md:w-[400px] h-[250px] w-[360px]" />
             }
             {   
                 statsPizza &&  !isLoading && <ChartContainer
@@ -134,6 +134,7 @@ export function StatsOfLaunches(){
                                     textAnchor={props.textAnchor}
                                     dominantBaseline={props.dominantBaseline}
                                     fill={"hsla(var(--foreground))"}
+                                    className="hidden md:block"
                                 >
                                     {payload.name}
                                 </text>
@@ -144,10 +145,37 @@ export function StatsOfLaunches(){
                     </PieChart>
                 </ChartContainer>
             }
-            <CardFooter className="flex md:hidden justify-center">
-                <p className="font-sans font-semibold text-sm  text-primary">Sucesso: <span className="text-success-50 font-bold">{success}</span></p>
-                <p className="font-sans font-semibold text-sm  text-primary">Falha: <span className="text-failure-50 font-bold">{failures}</span></p>
-            </CardFooter>
+            <CardFooter className="flex flex-col gap-2 md:hidden justify-center mt-4">
+                <div className="flex gap-2">
+                    <p className="font-sans font-semibold text-sm  text-primary">Sucesso: <span className="text-success-50 font-bold">{success}</span></p>
+                    <p className="font-sans font-semibold text-sm  text-primary">Falha: <span className="text-failure-50 font-bold">{failures}</span></p>
+                </div>
+                <div className="md:flex md:flex-col gap-8">
+
+                <div className="flex flex-col gap-1 md:hidden">
+                    <div className="flex flex-row gap-2 items-center">
+                        <RocketStatus status="black" />
+                        <h3 className="font-sans font-semibold text-xs  text-primary">Falcon 9 Reusado</h3>
+                    </div>
+
+                    <div className="flex flex-row gap-2 items-center">
+                        <RocketStatus status="violet" />
+                        <h3 className="font-sans font-semibold text-xs  text-primary">Falcon 9 Novo</h3>
+                    </div>
+
+                    <div className="flex flex-row gap-2 items-center">
+                        <RocketStatus status="blue" />
+                        <h3 className="font-sans font-semibold text-xs  text-primary">Falcon 1</h3>
+                    </div>
+
+                    <div className="flex flex-row gap-2 items-center">
+                        <RocketStatus status="gray" />
+                        <h3 className="font-sans font-semibold text-xs  text-primary">Falcon Heavy</h3>
+                    </div>
+                    
+                </div>
+            </div>
+        </CardFooter>
         </CardContent>
     </Card>)
 }
