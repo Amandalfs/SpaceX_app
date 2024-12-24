@@ -31,7 +31,7 @@ export function HistoryLaunches(){
       </h2>
     </div>
     <div className='flex justify-center items-center'>
-      <form className='flex flex-row gap-4 items-center w-[1216px] h-14 mx-auto'
+      <form className='flex flex-row gap-4 items-center md:w-[1216px] h-14 mx-auto'
       onSubmit={(e)=>{
         e.preventDefault();
         setSearchParams((params) => {
